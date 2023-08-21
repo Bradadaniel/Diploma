@@ -26,7 +26,24 @@ if (isset($_POST['submit_category'])) {
         $insert_category->execute([$name]);
         $msg = '<div class="alert success"><span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>New category added.</div>';
     }
+}
 
+    $query = "SELECT product_id, product_size FROM products";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $sizes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($sizes as &$size) {
+        $size['product_size'] = explode(',', $size['product_size']);
+    }
+
+    if (isset($_POST['submit_qty'])) {
+    $productId = $_POST['product_id'];
+    $selectedSize = $_POST['size'];
+    $productQuantity = $_POST['product_quantity'];
+
+    $insert_storage = $pdo->prepare("INSERT INTO product_storage (product_id, product_size, product_quantity) VALUES (?,?,?)");
+    $insert_storage->execute([$productId, $selectedSize, $productQuantity]);
 
 
 }
@@ -43,6 +60,8 @@ if (isset($_POST['submit_category'])) {
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>DabeShop - Admin</title>
 </head>
 <body style="background-color: var(--grey)">
@@ -54,14 +73,14 @@ if (isset($_POST['submit_category'])) {
     <ul class="side-menu">
         <li><a href="admin.php"><i class="bx bxs-dashboard"></i>Dashboard</a></li>
         <li><a href="admin-upload.php"><i class="bx bx-store-alt"></i>Shop</a></li>
-        <li><a href="#"><i class='bx bxs-shopping-bag'></i>Orders</a></li>
-        <li><a href="#"><i class="bx bx-message-square-dots"></i>Archive</a></li>
+        <li><a href="admin_orders.php"><i class='bx bxs-shopping-bag'></i>Orders</a></li>
+        <li><a href="admin_order_archive.php"><i class="bx bx-message-square-dots"></i>Archive</a></li>
         <li><a href="admin-users.php"><i class="bx bx-group"></i>Users</a></li>
         <li><a href="#"><i class="bx bx-cog"></i>Settings</a></li>
     </ul>
     <ul class="side-menu">
         <li>
-            <a href="#" class="logout">
+            <a href="logout.php" class="logout">
                 <i class="bx bx-log-out-circle"></i>
                 Logout
             </a>
@@ -147,8 +166,124 @@ if (isset($_POST['submit_category'])) {
         <button name="submit_product" id="submit_product" class="button-6" type="submit">Add Product</button>
     </form>
 </div>
+
+
+    <h1>Add Quantity</h1>
+    <div class="add_product-form" style="margin: 55px">
+        <form action="" method="post" enctype="multipart/form-data">
+
+            <label for="product_id">Product ID:</label><br>
+            <input type="text" name="product_id" id="product_id"><br>
+
+            <label for="size">Choose a size:</label><br>
+            <select id="size" name="size">
+            </select><br><br>
+
+            <label for="product_quantity">Product Quantity:</label><br>
+            <input type="text" name="product_quantity" id="product_quantity"><br>
+
+            <button name="submit_qty" id="submit_qty" class="button-6" type="submit">Add Qunatity</button>
+        </form>
+    </div>
+
+    <div class="container mt-5">
+        <h1>Products</h1>
+        <div class="add_product-form">
+            <div class="table-container">
+                <table id="productTable" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Detail</th>
+                        <th>Brand</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 </main>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
 <script src="js/adminscript.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#product_id').on('input', function () {
+            var productId = $(this).val();
+            $.ajax({
+                url: 'get_sizes.php',
+                type: 'POST',
+                data: { product_id: productId },
+                success: function (response) {
+                    $('#size').html(response);
+                }
+            });
+        });
+    });
+
+
+    $(document).ready(function() {
+        var dataTable = $('#productTable').DataTable({
+            "ajax": {
+                "url": "get_products.php",
+                "dataSrc": ""
+            },
+            "columns": [
+                { "data": "product_id" },
+                { "data": "product_category" },
+                { "data": "product_name" },
+                { "data": "product_size" },
+                { "data": "product_detail" },
+                { "data": "product_brand" },
+                {
+                    "data": null,
+                    "render": function(data, type, row) {
+                        return '<button class="btn btn-primary btn-sm update-btn" data-product-id="' + data.product_id + '">Update</button>' +
+                            '<button class="btn btn-danger btn-sm delete-btn" data-product-id="' + data.product_id + '">Delete</button>';
+                    }
+                }
+            ]
+        });
+
+        // Automatikus frissítés beállítása
+        setInterval(function() {
+            dataTable.ajax.reload(null, false);
+        }, 5000); // 5 másodperces frissítési időköz (állítsd át igény szerint)
+
+        // Delete gombra kattintva törlési művelet AJAX hívással
+        $('#productTable tbody').on('click', '.delete-btn', function() {
+            var productId = $(this).data('product-id');
+            if (confirm("Biztosan törölni szeretnéd ezt a terméket?")) {
+                $.ajax({
+                    url: 'delete_product.php',
+                    type: 'POST',
+                    data: { product_id: productId },
+                    success: function(data) {
+                        if (data === "Success") {
+                            // Nem szükséges az automatikus frissítés itt
+                        } else {
+                            alert("Sikeres.");
+                        }
+                    },
+                    error: function() {
+                        alert("Sikeres.");
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
 </body>
 </html>

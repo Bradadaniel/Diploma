@@ -4,14 +4,15 @@
             <div class="wrap">
                 <div class="top">
                     <div class="subscribe">
-                        <h3>Get voucher from us</h3>
-                        <p class="grey-color">Enter your email</p>
-                        <form action="" class="search">
-                            <i class="ri-mail-line"></i>
-                            <input type="text" class="input" placeholder="Enter your mail">
-                            <input type="submit" class="submit">
-                            <i class="ri-arrow-right-line"></i>
-                        </form>
+                        <h3>Fashion and quality in one place</h3>
+
+<!--                        <p class="grey-color">Enter your email</p>-->
+<!--                        <form action="" class="search">-->
+<!--                            <i class="ri-mail-line"></i>-->
+<!--                            <input type="text" class="input" placeholder="Enter your mail">-->
+<!--                            <input type="submit" class="submit">-->
+<!--                            <i class="ri-arrow-right-line"></i>-->
+<!--                        </form>-->
                     </div>
                     <div class="list-block">
                         <h3 class="dot-title">Service</h3>

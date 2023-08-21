@@ -1,4 +1,43 @@
+<?php
+
+$sql = "SELECT * FROM products ORDER BY product_id DESC LIMIT 16";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$msg='';
+
+if (isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+
+    // Ellenőrizd, hogy a rekord már létezik-e a wishlist táblában
+    $check_sql = "SELECT * FROM wishlist WHERE user_id = :user_id AND product_id = :product_id";
+    $check_stmt = $pdo->prepare($check_sql);
+    $check_stmt->bindParam(':user_id', $id);
+    $check_stmt->bindParam(':product_id', $product_id);
+    $check_stmt->execute();
+
+    if ($check_stmt->rowCount() == 0) {
+        // Hozzáadás a wishlist táblához
+        $add_sql = "INSERT INTO wishlist (user_id, product_id) VALUES (:user_id, :product_id)";
+        $add_stmt = $pdo->prepare($add_sql);
+        $add_stmt->bindParam(':user_id', $id);
+        $add_stmt->bindParam(':product_id', $product_id);
+        $add_stmt->execute();
+
+        $msg = '<div class="alert success"><span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>Product has been added to your wishlist.</div>';
+    } else {
+        $msg = '<div class="alert"><span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>Product is already in your wishlist!</div>';
+    }
+}
+
+if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
+    $msg = '<div class="alert success"><span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>Your order was successful! Thank you for shopping with us.</div>';
+}
+
+?>
 <main>
+    <?php echo $msg;?>
     <div class="slider">
         <div class="sliderbox swiper">
             <div class="wrap swiper-wrapper">
@@ -74,20 +113,20 @@
                                 </div>
                             </div>
                             <div class="dot-info">
-                                <h3 class="dot-title">The Blue Ocean MX</h3>
-                                <p class="grey-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis dolorum ipsum tempore.</p>
+                                <h3 class="dot-title">Shirts</h3>
+                                <p class="grey-color">Top quality shirts in a wide selection.Meticulously crafted from premium materials, our shirts are designed to accompany you through the years.</p>
                             </div>
                         </div>
 
                         <div class="item">
                             <div class="dot-image">
                                 <div class="thumbnail hover">
-                                    <img src="prod-img/2.jpg" alt="">
+                                    <img src="prod-img/Jeans.jpg" alt="">
                                 </div>
                             </div>
                             <div class="dot-info">
-                                <h3 class="dot-title">The Blue Ocean MX</h3>
-                                <p class="grey-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis dolorum ipsum tempore.</p>
+                                <h3 class="dot-title">Jeans</h3>
+                                <p class="grey-color">You've got Questions. We've Got Jeans.Discover the perfect balance of style and comfort with our latest denim collection! Choose quality and durability in a single garment.</p>
                             </div>
                         </div>
 
@@ -98,8 +137,8 @@
                                 </div>
                             </div>
                             <div class="dot-info">
-                                <h3 class="dot-title">The Blue Ocean MX</h3>
-                                <p class="grey-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis dolorum ipsum tempore.</p>
+                                <h3 class="dot-title">Jackets</h3>
+                                <p class="grey-color">Whether it's for everyday wear or special outings, our coats not only exude elegance but also ensure unmatched coziness. </p>
                             </div>
                         </div>
                     </div>
@@ -108,870 +147,98 @@
         </div>
     </div>
 
-    <div class="carousel">
-        <div class="container">
-            <div class="wrap">
-                <div class="heading">
-                    <h2 class="title">New Arrivals</h2>
-                </div>
-                <div class="inner-wrapper">
-                    <div class="dotgrid carouselbox swiper">
-                        <!--                        copy from mega menu structure-->
-                        <div class="wrapper swiper-wrapper">
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="page-single.php" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/11.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--                                                                copy-->
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/22.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Women Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--                                                                copy end-->
-                            <!--                                                                copy-->
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg" alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/33.jpg" alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Jackets under price</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/11.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/11.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/11.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/11.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item swiper-slide">
-                                <div class="dot-image">
-                                    <a href="" class="product-permalink"></a>
-                                    <div class="thumbnail">
-                                        <img src="prod-img/3.jpg"  alt="">
-                                    </div>
-                                    <div class="thumbnail hover">
-                                        <img src="prod-img/11.jpg"  alt="">
-                                    </div>
-                                    <div class="actions">
-                                        <ul>
-                                            <li><a href=""><i class="ri-star-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                            </li>
-                                            <li><a href=""><i
-                                                        class="ri-eye-line"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="label"><span>-25%</span></div>
-                                </div>
-                                <div class="dot-info">
-                                    <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                    <div class="product-price">
-                                        <span class="before">500RSD</span>
-                                        <span class="current">350RSD</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--                                                                copy end-->
-                        </div>
-                    </div>
-                    <div class="nav">
-                        <div class="swiper-button-next">
-                            <i class="ri-arrow-right-line"></i>
-                        </div>
-                        <div class="swiper-button-prev">
-                            <i class="ri-arrow-left-line"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="bycats">
         <div class="container">
             <div class="wrap">
-                <div class="heading sort-list tabs">
-                    <span class="grey-color">in</span>
-                    <div class="wrap">
-                        <h3 class="opt-trigger">
-                            <span class="value">Sweater</span>
-                            <i class="ri-arrow-down-s-line"></i>
-                        </h3>
-                        <ul>
-                            <li class="active"><a data-id="sweater" href="#0" class="tabbed-trigger">Sweater</a></li>
-                            <li><a data-id="hoodie" href="#0" class="tabbed-trigger">Hoodie</a></li>
-                            <li><a data-id="shirt" href="#0" class="tabbed-trigger">Shirt</a></li>
-                        </ul>
-                    </div>
-                </div>
+                                <div class="heading" id="News">
+                                    <h2 class="title">New Arrivals</h2>
+                                </div>
+
                 <div class="tabbed">
                     <div id="sweater" class="sort-data active">
                         <div class="dotgrid">
                             <div class="wrapper">
+                                <?php
+                                if ($result) {
+                                foreach ($result as $row) {
+                                $product_name = $row["product_name"];
+                                $product_price = $row["product_price"];
+                                $product_size = $row["product_size"];
+                                $product_images = explode(",", $row["product_img"]);
+                                $product_action = $row["product_action"];
+
+                                $discounted_price = $product_price - ($product_price * ($product_action / 100));
+
+                                ?>
                                 <div class="item">
                                     <div class="dot-image">
                                         <a href="" class="product-permalink"></a>
                                         <div class="thumbnail">
-                                            <img src="prod-img/sweater1.jpg"  alt="">
+                                            <img src="uploaded_images/<?php echo $product_images[0]; ?>" alt="">
                                         </div>
                                         <div class="thumbnail hover">
-                                            <img src="prod-img/sweater11.jpg"  alt="">
+                                            <img src="uploaded_images/<?php echo $product_images[1]; ?>" alt="">
                                         </div>
                                         <div class="actions">
                                             <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
+                                                <?php
+                                                if (!empty($id)){
+                                                ?>
+                                                <li><a href="?product_id=<?php echo $row['product_id']; ?>"><i class="ri-heart-line"></i></a></li>
+                                                <?php
+                                                }
+                                                ?>
+                                                <li><a href="page-single.php?product_id=<?php echo $row['product_id']; ?>"><i class="ri-eye-line"></i></a></li>
                                             </ul>
                                         </div>
-                                        <div class="label"><span>-25%</span></div>
+                                        <?php
+                                        if ($product_action) {
+                                            echo '<div class="label action"><span>-' . $product_action . '%</span></div>';
+                                        }
+                                        ?>
                                     </div>
                                     <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
+                                        <h2 class="dot-title"><a href=""><?php echo $product_name; ?></a></h2>
                                         <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
+                                            <?php
+                                            if ($product_action) {
+                                                echo '<span class="before">' . $product_price . '$ </span>';
+                                                echo '<span class="current">' . $discounted_price . '$</span>';
+                                            } else {
+                                                echo '<span class="current">' . $product_price . '$</span>';
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater2.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater22.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater3.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater33.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater44.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater4.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater5.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater55.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater6.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater66.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater7.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater77.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/sweater8.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/sweater88.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <?php
+                                }
+                                } else {
+                                    echo "Not found.";
+                                }
+                                ?>
                             </div>
                         </div>
 
                     </div>
-                    <div id="hoodie" class="sort-data">
-                        <div class="dotgrid">
-                            <div class="wrapper">
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/hoodie1.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/hoodie11.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/hoodie2.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/hoodie22.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/hoodie3.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/hoodie33.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/hoodie4.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/hoodie44.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/hoodie5.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/hoodie55.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/hoodie6.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/hoodie66.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
-                    <div id="shirt" class="sort-data">
-                        <div class="dotgrid">
-                            <div class="wrapper">
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/shirt11.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/shirt1.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/shirt2.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/shirt22.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/shirt3.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/shirt33.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <div class="dot-image">
-                                        <a href="" class="product-permalink"></a>
-                                        <div class="thumbnail">
-                                            <img src="prod-img/shirt4.jpg"  alt="">
-                                        </div>
-                                        <div class="thumbnail hover">
-                                            <img src="prod-img/shirt44.jpg"  alt="">
-                                        </div>
-                                        <div class="actions">
-                                            <ul>
-                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                </li>
-                                                <li><a href=""><i
-                                                            class="ri-eye-line"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="label"><span>-25%</span></div>
-                                    </div>
-                                    <div class="dot-info">
-                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                        <div class="product-price">
-                                            <span class="before">500RSD</span>
-                                            <span class="current">350RSD</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="banner" style="padding: 100px 0">
-        <div class="container">
-            <div class="wrap">
-                <div class="content">
-                    <span>Promo</span>
-                    <h3 class="title">Get ready!<br>Winter is comeing..</h3>
-                    <div class="button"><a href="" class="primary-btn">Go get in</a></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--    <div class="banner" style="padding: 100px 0">-->
+<!--        <div class="container">-->
+<!--            <div class="wrap">-->
+<!--                <div class="content">-->
+<!--                    <span>Promo</span>-->
+<!--                    <h3 class="title">Get ready!<br>Winter is comeing..</h3>-->
+<!--                    <div class="button"><a href="" class="primary-btn">Go get in</a></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <div class="guide">
         <div class="container">

@@ -10,18 +10,43 @@
 
 <?php include 'header.php'?>
 <?php
-
+$msg='';
 
 $sql = "SELECT * FROM products";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$msg='';
+
+if (isset($_GET['product_id'])) {
+    $product_id = $_GET['product_id'];
+
+    // Ellenőrizd, hogy a rekord már létezik-e a wishlist táblában
+    $check_sql = "SELECT * FROM wishlist WHERE user_id = :user_id AND product_id = :product_id";
+    $check_stmt = $pdo->prepare($check_sql);
+    $check_stmt->bindParam(':user_id', $id);
+    $check_stmt->bindParam(':product_id', $product_id);
+    $check_stmt->execute();
+
+    if ($check_stmt->rowCount() == 0) {
+        // Hozzáadás a wishlist táblához
+        $add_sql = "INSERT INTO wishlist (user_id, product_id) VALUES (:user_id, :product_id)";
+        $add_stmt = $pdo->prepare($add_sql);
+        $add_stmt->bindParam(':user_id', $id);
+        $add_stmt->bindParam(':product_id', $product_id);
+        $add_stmt->execute();
+
+        $msg = '<div class="alert success"><span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>Product has been added to your wishlist.</div>';
+    } else {
+        $msg = '<div class="alert"><span class="closebtn" onclick="this.parentElement.style.display=\'none\';">&times;</span>Product is already in your wishlist!</div>';
+    }
+}
 ?>
 
 </div>
 <div class="overlay" data-overlay></div>
-
+<?php echo $msg;?>
 <main>
     <div class="section">
         <div class="container wide">
@@ -55,22 +80,22 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                 </div>
-                                <div class="widget">
-                                    <div class="summary">
-                                        <input type="checkbox" name="cats" id="aab" checked>
-                                        <label for="aab">
-                                            <span>Color</span>
-                                            <i class="ri-arrow-down-s-line"></i>
-                                        </label>
-                                        <div class="accord product-color">
-                                            <div class="wrap">
-                                                <button class="tosca"></button>
-                                                <button class="brown"></button>
-                                                <button class="purple"></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+<!--                                <div class="widget">-->
+<!--                                    <div class="summary">-->
+<!--                                        <input type="checkbox" name="cats" id="aab" checked>-->
+<!--                                        <label for="aab">-->
+<!--                                            <span>Color</span>-->
+<!--                                            <i class="ri-arrow-down-s-line"></i>-->
+<!--                                        </label>-->
+<!--                                        <div class="accord product-color">-->
+<!--                                            <div class="wrap">-->
+<!--                                                <button class="tosca"></button>-->
+<!--                                                <button class="brown"></button>-->
+<!--                                                <button class="purple"></button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="widget">
                                     <div class="summary">
                                         <input type="checkbox" name="cats" id="aac" checked>
@@ -120,11 +145,11 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <div class="summary">
                                         <label><span>Price</span></label>
                                         <div class="range-track">
-                                            <input type="range" value="1000" min="0" max="25000" step="1">
+                                            <input type="range" id="priceRange" value="1000" min="0" max="25000" step="1">
                                         </div>
                                         <div class="price-range grey-color">
-                                            <span>1000RSD</span>
-                                            <span>25000RSD</span>
+                                            <span id="minPrice">$1</span>
+                                            <span id="maxPrice">$3000</span>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +173,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                         <ul>
                                             <li class="active"><a href="#0">Default sorting</a></li>
-                                            <li><a href="#0">Popular</a></li>
                                             <li><a href="#0">Latest</a></li>
                                             <li><a href="#0">Price low to hight</a></li>
                                             <li><a href="#0">Price hight to low</a></li>
@@ -191,8 +215,13 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 </div>
                                                 <div class="actions">
                                                     <ul>
-                                                        <li><a href=""><i class="ri-star-line"></i></a></li>
-                                                        <li><a href=""><i class="ri-arrow-left-right-line"></i></a></li>
+                                                        <?php
+                                                        if (!empty($id)){
+                                                            ?>
+                                                            <li><a href="?product_id=<?php echo $row['product_id']; ?>"><i class="ri-heart-line"></i></a></li>
+                                                            <?php
+                                                        }
+                                                        ?>
                                                         <li><a href="page-single.php?product_id=<?php echo $row['product_id']; ?>"><i class="ri-eye-line"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -236,25 +265,6 @@ $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php include 'footer.php'?>
 
 
-<script>
-
-    $('.menu-bar').click(function(){
-        $(this).toggleClass("click");
-        $('.sidebar').toggleClass("show");
-    });
-    $('.feat-btn').click(function(){
-        $('nav ul .feat-show').toggleClass("show");
-        $('nav ul .first').toggleClass("rotate");
-    });
-    $('.serv-btn').click(function(){
-        $('nav ul .serv-show').toggleClass("show1");
-        $('nav ul .second').toggleClass("rotate");
-    });
-    $('.mobile nav ul li').click(function(){
-        $(this).addClass("active").siblings().removeClass("active");
-    });
-
-</script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
     //swiper

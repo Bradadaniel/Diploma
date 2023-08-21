@@ -107,7 +107,7 @@ h1{
     height: 48px;
     background: transparent;
     margin-left: 6px;
-    border-radius: 48px 0 0 48px;
+    /*border-radius: 48px 0 0 48px;*/
     padding: 4px;
 }
 
@@ -115,29 +115,51 @@ h1{
     background: var(--grey);
     position: relative;
 }
-.sidebar .side-menu li.active::before{
-    content: "";
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    top: -40px;
-    right: 0;
-    box-shadow: 20px 20px 0 var(--grey);
-    z-index: -1;
+.status-pending {
+    background-color: yellow;
+    border-radius: 2rem;
+    padding: 5px 3px;
+    font-size: 13px;
 }
 
-.sidebar .side-menu li.active::after{
-    content: "";
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    bottom: -40px;
-    right: 0;
-    box-shadow: 20px -20px 0 var(--grey);
-    z-index: -1;
+.status-accepted {
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 2rem;
+    padding: 5px 3px;
+    font-size: 13px;
 }
+
+.status-declined {
+    background-color: red;
+    color: white;
+    border-radius: 2rem;
+    padding: 5px 3px;
+    font-size: 13px;
+}
+/*.sidebar .side-menu li.active::before{*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    border-radius: 50%;*/
+/*    top: -40px;*/
+/*    right: 0;*/
+/*    box-shadow: 20px 20px 0 var(--grey);*/
+/*    z-index: -1;*/
+/*}*/
+
+/*.sidebar .side-menu li.active::after{*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    width: 40px;*/
+/*    height: 40px;*/
+/*    border-radius: 50%;*/
+/*    bottom: -40px;*/
+/*    right: 0;*/
+/*    box-shadow: 20px -20px 0 var(--grey);*/
+/*    z-index: -1;*/
+/*}*/
 
 .sidebar .side-menu li a{
     width: 100%;
@@ -153,21 +175,6 @@ h1{
     transition: all 0.3s ease;
 }
 
-.sidebar .side-menu li.active a{
-    color: var(--success);
-}
-
-.sidebar.close .side-menu li a{
-    width: calc(48px - (4px * 2));
-    transition: all 0.3s ease;
-}
-
-.sidebar .side-menu li a .bx{
-    min-width: calc(60px - ((4px + 6px) * 2));
-    display: flex;
-    font-size: 1.6rem;
-    justify-content: center;
-}
 
 .sidebar .side-menu li a.logout{
     color: var(--danger);
@@ -743,6 +750,14 @@ h1{
 
 .delete-button:hover {
     background-color: #c0392b;
+}
+
+ .table-container {
+     max-height: 400px;
+     overflow: auto;
+ }
+.modal-dialog {
+    max-width: 80%;
 }
 
 

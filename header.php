@@ -20,6 +20,25 @@ else{
     $id = '';
 }
 
+
+$cart_count_sql = "SELECT COUNT(*) FROM cart WHERE user_id = :user_id";
+$cart_count_stmt = $pdo->prepare($cart_count_sql);
+$cart_count_stmt->bindParam(':user_id', $id);
+$cart_count_stmt->execute();
+$cart_item_count = $cart_count_stmt->fetchColumn();
+if ($id == ''){
+    $cart_item_count= '0';
+}
+
+$wishlist_count_sql = "SELECT COUNT(*) FROM wishlist WHERE user_id = :user_id";
+$wishlist_count_stmt = $pdo->prepare($wishlist_count_sql);
+$wishlist_count_stmt->bindParam(':user_id', $id);
+$wishlist_count_stmt->execute();
+$wishlist_item_count = $wishlist_count_stmt->fetchColumn();
+if ($id == ''){
+    $wishlist_item_count= '0';
+}
+
 ?>
 <head>
     <meta charset="UTF-8" />
@@ -82,9 +101,8 @@ else{
 
 
                                 </li>
-                                <li><a href=""><span class="item-floating">7</span>
-                                        <i class="ri-star-line"></i>
-                                    </a></li>
+                                <li><a href="wishlist.php"><span class="item-floating"><?php echo $wishlist_item_count?></span>
+                                        <i class="ri-heart-line"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -92,7 +110,7 @@ else{
                         <nav class="menu">
                             <ul>
 <!--                                <li><a href=""><span>Home</span></a></li>-->
-                                <li><a href="">
+                                <li><a href="page-category.php">
                                         <span>Products</span>
                                         <i class="ri-arrow-down-s-line"></i>
                                     </a>
@@ -245,16 +263,9 @@ else{
                             </ul>
 
                             <ul>
-                                <li><a href=""><span>Specials</span>
-                                        <i class="ri-arrow-down-s-line"></i>
-                                    </a>
-                                    <ul class="sub-menu list-block">
-                                        <li><a href="">Nike</a></li>
-                                        <li><a href="">Puma</a></li>
-                                        <li><a href="">Adidas</a></li>
-                                    </ul>
-                                </li>
+                                <li><a href="#News"><span>News</span></a></li>
                                 <li><a href="contact.php"><span>Contact</span></a></li>
+                                <li><a href="page-category.php"><span>Shop</span></a></li>
                             </ul>
                         </nav>
                         <div class="branding"><a href="index.php"><img src="img/Dabe-logos_black2.png" alt=""></a></div>
@@ -262,8 +273,8 @@ else{
                     <div class="header-right">
                         <div class="list-inline">
                             <ul>
-                                <li><a href="#0" trigger-button data-target="search-float"><i class="ri-search-line"></i></a></li>
-                                <li><a href=""><span class="item-floating">0</span><i class="ri-shopping-bag-line"></i></a></li>
+<!--                                <li><a href="#0" trigger-button data-target="search-float"><i class="ri-search-line"></i></a></li>-->
+                                <li><a href="cart.php"><span class="item-floating"><?php echo $cart_item_count?></span><i class="ri-shopping-cart-line"></i></a></li>
                             </ul>
                         </div>
                     </div>
