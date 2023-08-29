@@ -20,6 +20,33 @@ else{
     $id = '';
 }
 
+$visitorId = $_COOKIE['visitor_id'] ?? null;
+$lastVisitTime = $_COOKIE['last_visit_time'] ?? null;
+$currentTimestamp = time();
+
+if (!$visitorId || !$lastVisitTime || ($currentTimestamp - $lastVisitTime) >= 1800) {
+    $visitorId = md5(uniqid(rand(), true));
+    setcookie('visitor_id', $visitorId, $currentTimestamp + 1800); // 30 perc
+    setcookie('last_visit_time', $currentTimestamp, $currentTimestamp + 1800); // 30 perc
+
+    $visitorStmt = $pdo->prepare('SELECT * FROM visitors WHERE visitor_id = :visitor_id');
+    $visitorStmt->bindParam(':visitor_id', $visitorId);
+    $visitorStmt->execute();
+    $visitor = $visitorStmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$visitor) {
+        $insertStmt = $pdo->prepare('INSERT INTO visitors (visitor_id, visit_count) VALUES (:visitor_id, 1)');
+        $insertStmt->bindParam(':visitor_id', $visitorId);
+        $insertStmt->execute();
+    } else {
+        $updateStmt = $pdo->prepare('UPDATE visitors SET visit_count = visit_count + 1 WHERE visitor_id = :visitor_id');
+        $updateStmt->bindParam(':visitor_id', $visitorId);
+        $updateStmt->execute();
+    }
+}
+
+
+
 
 $cart_count_sql = "SELECT COUNT(*) FROM cart WHERE user_id = :user_id";
 $cart_count_stmt = $pdo->prepare($cart_count_sql);
@@ -110,7 +137,7 @@ if ($id == ''){
                         <nav class="menu">
                             <ul>
 <!--                                <li><a href=""><span>Home</span></a></li>-->
-                                <li><a href="page-category.php">
+                                <li><a href="#Guide">
                                         <span>Products</span>
                                         <i class="ri-arrow-down-s-line"></i>
                                     </a>
@@ -123,106 +150,58 @@ if ($id == ''){
                                                             <div class="wrapper">
                                                                 <div class="item">
                                                                     <div class="dot-image">
-                                                                        <a href="" class="product-permalink"></a>
+                                                                        <a href="#shirt" class="product-permalink"></a>
                                                                         <div class="thumbnail">
-                                                                            <img src="prod-img/3.jpg"  alt="">
+                                                                            <img src="prod-img/1.jpg"  alt="" width="250">
                                                                         </div>
                                                                         <div class="thumbnail hover">
                                                                             <img src="prod-img/11.jpg"  alt="">
                                                                         </div>
-                                                                        <div class="actions">
-                                                                            <ul>
-                                                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                                                </li>
-                                                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                                                </li>
-                                                                                <li><a href=""><i
-                                                                                            class="ri-eye-line"></i></a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div class="label"><span>-25%</span></div>
+
                                                                     </div>
                                                                     <div class="dot-info">
-                                                                        <h2 class="dot-title"><a href="">Man Clothes</a></h2>
-                                                                        <div class="product-price">
-                                                                            <span class="before">500RSD</span>
-                                                                            <span class="current">350RSD</span>
-                                                                        </div>
+                                                                        <h2 class="dot-title"><a href="">Shirts</a></h2>
                                                                     </div>
                                                                 </div>
 
-                                                                <!--                                                                copy-->
                                                                 <div class="item">
                                                                     <div class="dot-image">
-                                                                        <a href="" class="product-permalink"></a>
+                                                                        <a href="#jeans" class="product-permalink"></a>
                                                                         <div class="thumbnail">
-                                                                            <img src="prod-img/3.jpg"  alt="">
+                                                                            <img src="prod-img/Jeans.jpg" width="250" alt="">
                                                                         </div>
                                                                         <div class="thumbnail hover">
-                                                                            <img src="prod-img/22.jpg"  alt="">
+                                                                            <img src="prod-img/2.jpg"  alt="">
                                                                         </div>
-                                                                        <div class="actions">
-                                                                            <ul>
-                                                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                                                </li>
-                                                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                                                </li>
-                                                                                <li><a href=""><i
-                                                                                            class="ri-eye-line"></i></a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div class="label"><span>-25%</span></div>
+
                                                                     </div>
                                                                     <div class="dot-info">
-                                                                        <h2 class="dot-title"><a href="">Women Clothes</a></h2>
-                                                                        <div class="product-price">
-                                                                            <span class="before">500RSD</span>
-                                                                            <span class="current">350RSD</span>
-                                                                        </div>
+                                                                        <h2 class="dot-title"><a href="">Jeans</a></h2>
                                                                     </div>
                                                                 </div>
-                                                                <!--                                                                copy end-->
-                                                                <!--                                                                copy-->
+
                                                                 <div class="item">
                                                                     <div class="dot-image">
-                                                                        <a href="" class="product-permalink"></a>
+                                                                        <a href="#jackets" class="product-permalink"></a>
                                                                         <div class="thumbnail">
-                                                                            <img src="prod-img/3.jpg" alt="">
+                                                                            <img src="prod-img/3.jpg" width="250" alt="">
                                                                         </div>
                                                                         <div class="thumbnail hover">
                                                                             <img src="prod-img/33.jpg" alt="">
                                                                         </div>
-                                                                        <div class="actions">
-                                                                            <ul>
-                                                                                <li><a href=""><i class="ri-star-line"></i></a>
-                                                                                </li>
-                                                                                <li><a href=""><i class="ri-arrow-left-right-line"></i></a>
-                                                                                </li>
-                                                                                <li><a href=""><i
-                                                                                            class="ri-eye-line"></i></a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                        <div class="label"><span>-25%</span></div>
+
                                                                     </div>
                                                                     <div class="dot-info">
-                                                                        <h2 class="dot-title"><a href="">Jackets under price</a></h2>
-                                                                        <div class="product-price">
-                                                                            <span class="before">500RSD</span>
-                                                                            <span class="current">350RSD</span>
-                                                                        </div>
+                                                                        <h2 class="dot-title"><a href="">Jackets</a></h2>
                                                                     </div>
                                                                 </div>
-                                                                <!--                                                                copy end-->
 
 
                                                             </div>
                                                         </div>
                                                         <div class="links">
                                                             <div class="list-block">
-                                                                <h3 class="dot-title">Apparel</h3>
+                                                                <h3 class="dot-title">Brands</h3>
                                                                 <ul>
                                                                     <li><a href="">Pull&Bear</a></li>
                                                                     <li><a href="">Berskha</a></li>
@@ -232,7 +211,7 @@ if ($id == ''){
                                                             </div>
 
                                                             <div class="list-block">
-                                                                <h3 class="dot-title">Shoes</h3>
+                                                                <h3 class="dot-title"></h3>
                                                                 <ul>
                                                                     <li><a href="">Nike</a></li>
                                                                     <li><a href="">Adidas</a></li>
@@ -242,7 +221,7 @@ if ($id == ''){
                                                             </div>
 
                                                             <div class="list-block">
-                                                                <h3 class="dot-title">Gym</h3>
+                                                                <h3 class="dot-title"></h3>
                                                                 <ul>
                                                                     <li><a href="">Gym Shark</a></li>
                                                                     <li><a href="">Under Armour</a></li>
@@ -259,11 +238,12 @@ if ($id == ''){
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href=""><span>Favourites</span></a></li>
+<!--                                <li><a href=""><span>Favourites</span></a></li>-->
+                                <li><a href="#News"><span>News</span></a></li>
+
                             </ul>
 
                             <ul>
-                                <li><a href="#News"><span>News</span></a></li>
                                 <li><a href="contact.php"><span>Contact</span></a></li>
                                 <li><a href="page-category.php"><span>Shop</span></a></li>
                             </ul>
@@ -296,45 +276,33 @@ if ($id == ''){
 
 <div class="mobile">
     <nav class="sidebar">
-        <div class="text">
-            Side Menu
-        </div>
-        <hr>
-        <ul>
-            <li class="active"><a href="#">Dashboard</a></li>
-            <li>
-                <a href="#" class="feat-btn">Features
-                    <span class="fas fa-caret-down first"></span>
-                </a>
-                <ul class="feat-show">
-                    <li><a href="#">Pages</a></li>
-                    <li><a href="#">Elements</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" class="serv-btn">Services
-                    <span class="fas fa-caret-down second"></span>
-                </a>
-                <ul class="serv-show">
-                    <li><a href="#">App Design</a></li>
-                    <li><a href="#">Web Design</a></li>
-                    <li><a href="#">App Design</a></li>
-                    <li><a href="#">Web Design</a></li>
-                    <li><a href="#">App Design</a></li>
-                    <li><a href="#">Web Design</a></li>
-                    <li><a href="#">App Design</a></li>
-                    <li><a href="#">Web Design</a></li>
-                    <li><a href="#">App Design</a></li>
-                    <li><a href="#">Web Design</a></li>
-                    <li><a href="#">App Design</a></li>
-                    <li><a href="#">Web Design</a></li>
-                </ul>
-            </li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Shortcuts</a></li>
-            <li><a href="#">Feedback</a></li>
 
+        <ul>
+            <li class="active"><a href="index.php">Home</a></li>
+            <li class=""><a href="wishlist.php">Favourites</a></li>
+            <li class=""><a href="cart.php">Cart</a></li>
+            <li class=""><a href="page-category.php">Shop</a></li>
+            <li class=""><a href="#Guide">Products</a></li>
+<!--            <li>-->
+<!--                <a href="#" class="serv-btn">Products-->
+<!--                    <span class="fas fa-caret-down second"></span>-->
+<!--                </a>-->
+<!--                <ul class="serv-show">-->
+<!--                    <li><a href="#">App Design</a></li>-->
+<!--                    <li><a href="#">Web Design</a></li>-->
+<!--                    <li><a href="#">App Design</a></li>-->
+<!--                    <li><a href="#">Web Design</a></li>-->
+<!--                    <li><a href="#">App Design</a></li>-->
+<!--                    <li><a href="#">Web Design</a></li>-->
+<!--                    <li><a href="#">App Design</a></li>-->
+<!--                    <li><a href="#">Web Design</a></li>-->
+<!--                    <li><a href="#">App Design</a></li>-->
+<!--                    <li><a href="#">Web Design</a></li>-->
+<!--                    <li><a href="#">App Design</a></li>-->
+<!--                    <li><a href="#">Web Design</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+            <li><a href="contact.php">Contact</a></li>
             <?php
             $select_profile= $pdo->prepare("SELECT * FROM `users` WHERE email = ?");
             $select_profile->execute([$email]);

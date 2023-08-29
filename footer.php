@@ -4,6 +4,7 @@
             <div class="wrap">
                 <div class="top">
                     <div class="subscribe">
+                        <div style="display: flex;color: var(--grey-color)"><h4 style="display: flex"><hr style="margin-top:3%;;width: 50px"> Spend your time in the best shop</h4></div>
                         <h3>Fashion and quality in one place</h3>
 
 <!--                        <p class="grey-color">Enter your email</p>-->
@@ -18,7 +19,6 @@
                         <h3 class="dot-title">Service</h3>
                         <ul>
                             <li><a href="#">About Us</a></li>
-                            <li><a href="#">Careers</a></li>
                             <li><a href="#">Delivery Information</a></li>
                             <li><a href="#">Terms & Condition</a></li>
                             <li><a href="#">Privacy Policy</a></li>
@@ -27,11 +27,10 @@
                     <div class="list-block">
                         <h3 class="dot-title">Service</h3>
                         <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Terms & Condition</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Shop Map</a></li>
+                            <li><a href="#">Best Actions</a></li>
+                            <li><a href="#">Great Quality</a></li>
                         </ul>
                     </div>
                     <div class="lit-block">

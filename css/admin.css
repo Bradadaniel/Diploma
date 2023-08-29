@@ -116,9 +116,10 @@ h1{
     position: relative;
 }
 .status-pending {
-    background-color: yellow;
+    background-color: #727201;
+    color: white;
     border-radius: 2rem;
-    padding: 5px 3px;
+    padding: 8px 5px;
     font-size: 13px;
 }
 
@@ -126,7 +127,7 @@ h1{
     background-color: dodgerblue;
     color: white;
     border-radius: 2rem;
-    padding: 5px 3px;
+    padding: 8px 5px;
     font-size: 13px;
 }
 
@@ -134,7 +135,7 @@ h1{
     background-color: red;
     color: white;
     border-radius: 2rem;
-    padding: 5px 3px;
+    padding: 8px 5px;
     font-size: 13px;
 }
 /*.sidebar .side-menu li.active::before{*/

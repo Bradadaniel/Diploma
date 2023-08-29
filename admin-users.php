@@ -54,10 +54,9 @@ if (isset($_POST['submit_category'])) {
     <ul class="side-menu">
         <li><a href="admin.php"><i class="bx bxs-dashboard"></i>Dashboard</a></li>
         <li><a href="admin-upload.php"><i class="bx bx-store-alt"></i>Shop</a></li>
-        <li><a href="admin_orders.php"><i class='bx bxs-shopping-bag'></i>Orders</a></li>
         <li><a href="admin_order_archive.php"><i class="bx bx-message-square-dots"></i>Archive</a></li>
         <li><a href="admin-users.php"><i class="bx bx-group"></i>Users</a></li>
-        <li><a href="#"><i class="bx bx-cog"></i>Settings</a></li>
+<!--        <li><a href="#"><i class="bx bx-cog"></i>Settings</a></li>-->
     </ul>
     <ul class="side-menu">
         <li>
@@ -86,63 +85,67 @@ if (isset($_POST['submit_category'])) {
             <span class="count">12</span>
         </a>
     </nav>
-</div>
-<!--    End of Navbar -->
-<div class="users-table">
-<table id="example" class="display" style="width:100%">
-    <thead>
-    <tr>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Status</th>
-        <th>Operations</th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-</div>
+    <main>
+        <div class="white-bg" style="background: white;border-radius: 2rem;padding: 1rem 0">
+        <div class="users-table">
+            <table id="example" class="display" style="width:100%;height: auto">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        </div>
 
-<!--<div class="modal" style="display: flex;margin: 0 auto;align-items: center;justify-content: center">-->
-    <!-- Modal for Edit -->
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="edit-modal-label">Adatok szerkesztése</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <!--<div class="modal" style="display: flex;margin: 0 auto;align-items: center;justify-content: center">-->
+        <!-- Modal for Edit -->
+        <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="edit-modal-label">Adatok szerkesztése</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="edit-form" method="post" action="update_data.php">
+                        <div class="modal-body">
+                            <input type="hidden" id="edit-user-id" name="edit_user_id">
+                            <div class="form-group">
+                                <label for="edit-username">Felhasználónév</label>
+                                <input type="text" class="form-control" id="edit-username" name="edit_username">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">E-mail</label>
+                                <input type="email" class="form-control" id="edit-email" name="edit_email">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-phone">Telefonszám</label>
+                                <input type="tel" class="form-control" id="edit-phone" name="edit_phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-status">Státusz</label>
+                                <input type="text" class="form-control" id="edit-status" name="edit_status">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+                            <button type="submit" class="btn btn-primary">Mentés</button>
+                        </div>
+                    </form>
                 </div>
-                <form id="edit-form" method="post" action="update_data.php">
-                    <div class="modal-body">
-                        <input type="hidden" id="edit-user-id" name="edit_user_id">
-                        <div class="form-group">
-                            <label for="edit-username">Felhasználónév</label>
-                            <input type="text" class="form-control" id="edit-username" name="edit_username">
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-email">E-mail</label>
-                            <input type="email" class="form-control" id="edit-email" name="edit_email">
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-phone">Telefonszám</label>
-                            <input type="tel" class="form-control" id="edit-phone" name="edit_phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="edit-status">Státusz</label>
-                            <input type="text" class="form-control" id="edit-status" name="edit_status">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
-                        <button type="submit" class="btn btn-primary">Mentés</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+    </main>
+</div>
+<!--    End of Navbar -->
 
 <!-- jQuery és DataTables JavaScript fájlok -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

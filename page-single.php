@@ -216,8 +216,13 @@
                                         </div>
 
                                         <div class="addcart button">
-                                            <button type="submit" name="add_to_cart" class="primary-btn">Add to cart</button>
+                                            <?php if (!empty($id)) { ?>
+                                                <button type="submit" name="add_to_cart" class="primary-btn">Add to cart</button>
+                                            <?php } else { ?>
+                                                <a href="login.php" class="primary-btn">Log in to buy</a>
+                                            <?php } ?>
                                         </div>
+
                                         <div class="buynow button">
                                             <a href="page-category.php" class="secondary-btn" style="text-decoration: none">Continue shopping</a></div>
                                     </div>

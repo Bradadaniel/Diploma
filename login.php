@@ -106,13 +106,13 @@ if (isset($_POST['submit'])){
                 </div>
                 <div class="content-wthree">
                     <h2>Login</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+                    <p>Welcome to us! This is DabeShop, fashion and quality in one place.</p>
                     <?php echo $msg; ?>
                     <form action="" method="post">
-                        <input type="email" class="email" name="email" id="email" placeholder="Irja be az email cimét" required>
-                        <input type="password" class="password" name="password" id="password" placeholder="Irja be a jelszavát" style="margin-bottom: 2px;" required>
-                        <p><a href="user_frogot_password.php" style="margin-bottom: 15px; display: block; text-align: right;">Elfelejtette a jelszavát?</a></p>
-                        <button name="submit" name="submit" id="submit" class="btn" type="submit">Bejelentkezés</button>
+                        <input type="email" class="email" name="email" id="email" placeholder="Enter your email address" required>
+                        <input type="password" class="password" name="password" id="password" placeholder="Enter your password" style="margin-bottom: 2px;" required>
+                        <p><a href="user_frogot_password.php" style="margin-bottom: 15px; display: block; text-align: right;">Forgot your password?</a></p>
+                        <button name="submit" name="submit" id="submit" class="btn" type="submit">Log in</button>
                     </form>
                     <div class="social-icons">
                         <p>Register now! <a href="register.php">Register</a>.</p>

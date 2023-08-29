@@ -582,6 +582,9 @@ form :where(input, textarea, select)::placeholder{
 
 .mobile .sidebar{
     position: fixed;
+    top: 96px;
+    right: 0;
+    bottom: 0;
     /*fixed volt*/
     width: 250px;
     height: 100%;
@@ -1651,6 +1654,18 @@ input[type="range"]::-webkit-slider-thumb{
         --grid-col: 221px;
     }
 }
+@media (max-width: 990px){
+    .inner-header{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff; /
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+        z-index: 1000;
+    }
+}
+
 @media (max-width: 750px){
     .page-single .wrapper{
         display: flex;

@@ -22,7 +22,6 @@ $msg='';
 if (isset($_GET['product_id'])) {
     $product_id = $_GET['product_id'];
 
-    // Ellenőrizd, hogy a rekord már létezik-e a wishlist táblában
     $check_sql = "SELECT * FROM wishlist WHERE user_id = :user_id AND product_id = :product_id";
     $check_stmt = $pdo->prepare($check_sql);
     $check_stmt->bindParam(':user_id', $id);
@@ -30,7 +29,6 @@ if (isset($_GET['product_id'])) {
     $check_stmt->execute();
 
     if ($check_stmt->rowCount() == 0) {
-        // Hozzáadás a wishlist táblához
         $add_sql = "INSERT INTO wishlist (user_id, product_id) VALUES (:user_id, :product_id)";
         $add_stmt = $pdo->prepare($add_sql);
         $add_stmt->bindParam(':user_id', $id);
@@ -52,7 +50,7 @@ if (isset($_GET['product_id'])) {
         <div class="container wide">
             <div class="wrap">
                 <div class="heading">
-                    <h1 class="title">Sweater</h1>
+                    <h1 class="title"></h1>
                 </div>
                 <div class="content">
                     <div id="sidebar-filter" class="sidebar">
@@ -80,22 +78,6 @@ if (isset($_GET['product_id'])) {
                                         </div>
                                     </div>
                                 </div>
-<!--                                <div class="widget">-->
-<!--                                    <div class="summary">-->
-<!--                                        <input type="checkbox" name="cats" id="aab" checked>-->
-<!--                                        <label for="aab">-->
-<!--                                            <span>Color</span>-->
-<!--                                            <i class="ri-arrow-down-s-line"></i>-->
-<!--                                        </label>-->
-<!--                                        <div class="accord product-color">-->
-<!--                                            <div class="wrap">-->
-<!--                                                <button class="tosca"></button>-->
-<!--                                                <button class="brown"></button>-->
-<!--                                                <button class="purple"></button>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
                                 <div class="widget">
                                     <div class="summary">
                                         <input type="checkbox" name="cats" id="aac" checked>
@@ -105,16 +87,15 @@ if (isset($_GET['product_id'])) {
                                         </label>
                                         <div class="accord list-block scrollto">
                                             <ul class="wrapper initial">
-                                                <a href=""><li class="">Active Wear</li></a>
-                                                <li class="">Beauty</li>
-                                                <li class="">Candles</li>
-                                                <li class="">Fashion</li>
-                                                <li class="">Glases</li>
-                                                <li class="">Organic</li>
+                                                <a href=""><li class="">Hoodie</li></a>
+                                                <li class="">Shirt</li>
+                                                <li class="">Jeans</li>
+                                                <li class="">T-Shirt</li>
+                                                <li class="">Jackets</li>
+                                                <li class="">Skirt</li>
                                                 <li class="">Hat</li>
-                                                <li class="">Bedding</li>
-                                                <li class="">Backpack</li>
-                                                <li class="">Sneaker</li>
+                                                <li class="">Bag</li>
+                                                <li class="">Sweather</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -153,16 +134,17 @@ if (isset($_GET['product_id'])) {
                                         </div>
                                     </div>
                                 </div>
+<!--                                <button type="submit" id="submit_sorters" class="primary-btn" style="padding: 0.5rem;font-size: 1.5rem">Submit Sorter</button>-->
                             </div>
                         </div>
                     </div>
                     <div class="category-content">
                         <div class="sorter">
-<!--                            <a href="#0" class="menu-trigger">-->
-<!--                                <i class="ri-filter-line"></i>-->
-<!--                            </a>-->
                             <div class="left">
-                                <span class="grey-color">Showing 9 of 35 results</span>
+                                <form id="searchForm" method="post" style="display: flex">
+                                    <input type="text" id="searchInput" name="searchTerm" placeholder="Search for products">
+                                    <button type="submit" style="padding: 0.5rem;font-size: 1.5rem"><i class="ri-search-line"></i></button>
+                                </form>
                             </div>
                             <div class="right">
                                 <div class="sort-list">
@@ -181,80 +163,72 @@ if (isset($_GET['product_id'])) {
                                 </div>
                                 <div class="list-inline">
                                     <ul>
-<!--                                        <li><a href=""><i class="ri-pause-mini-line"></i></a></li>-->
-<!--                                        <li><a href=""><i class="ri-list-check-2"></i></a></li>-->
-<!--                                        <li><a href=""><i class="ri-layout-grid-line"></i></a></li>-->
-<!--                                        <li><a href=""><i class="ri-layout-masonry-line"></i></a></li>-->
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="dotgrid">
-                            <div class="wrapper">
-                                <?php
-                                if ($result) {
-                                    foreach ($result as $row) {
-                                        $product_name = $row["product_name"];
-                                        $product_price = $row["product_price"];
-                                        $product_size = $row["product_size"];
-                                        $product_images = explode(",", $row["product_img"]);
-                                        $product_action = $row["product_action"];
-
-                                        $discounted_price = $product_price - ($product_price * ($product_action / 100));
-
-                                        ?>
-
-                                        <div class="item">
-                                            <div class="dot-image">
-                                                <a href="" class="product-permalink"></a>
-                                                <div class="thumbnail">
-                                                    <img src="uploaded_images/<?php echo $product_images[0]; ?>" alt="">
-                                                </div>
-                                                <div class="thumbnail hover">
-                                                    <img src="uploaded_images/<?php echo $product_images[1]; ?>" alt="">
-                                                </div>
-                                                <div class="actions">
-                                                    <ul>
-                                                        <?php
-                                                        if (!empty($id)){
-                                                            ?>
-                                                            <li><a href="?product_id=<?php echo $row['product_id']; ?>"><i class="ri-heart-line"></i></a></li>
+                        <div id="searchResults" class="dotgrid">
+                            <div class="dotgrid">
+                                <div class="wrapper">
+                                    <?php
+                                    if ($result) {
+                                        foreach ($result as $row) {
+                                            $product_name = $row["product_name"];
+                                            $product_price = $row["product_price"];
+                                            $product_size = $row["product_size"];
+                                            $product_images = explode(",", $row["product_img"]);
+                                            $product_action = $row["product_action"];
+                                            $discounted_price = $product_price - ($product_price * ($product_action / 100));
+                                            ?>
+                                            <div class="item">
+                                                <div class="dot-image">
+                                                    <a href="" class="product-permalink"></a>
+                                                    <div class="thumbnail">
+                                                        <img src="uploaded_images/<?php echo $product_images[0]; ?>" alt="">
+                                                    </div>
+                                                    <div class="thumbnail hover">
+                                                        <img src="uploaded_images/<?php echo $product_images[1]; ?>" alt="">
+                                                    </div>
+                                                    <div class="actions">
+                                                        <ul>
                                                             <?php
-                                                        }
-                                                        ?>
-                                                        <li><a href="page-single.php?product_id=<?php echo $row['product_id']; ?>"><i class="ri-eye-line"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                                <?php
-                                                if ($product_action) {
-                                                    echo '<div class="label action"><span>-' . $product_action . '%</span></div>';
-                                                }
-                                                ?>
-                                            </div>
-                                            <div class="dot-info">
-                                                <h2 class="dot-title"><a href=""><?php echo $product_name; ?></a></h2>
-                                                <div class="product-price">
+                                                            if (!empty($id)) {
+                                                                echo '<li><a href="?product_id=' . $row['product_id'] . '"><i class="ri-heart-line"></i></a></li>';
+                                                            }
+                                                            ?>
+                                                            <li><a href="page-single.php?product_id=<?php echo $row['product_id']; ?>"><i class="ri-eye-line"></i></a></li>
+                                                        </ul>
+                                                    </div>
                                                     <?php
                                                     if ($product_action) {
-                                                        echo '<span class="before">' . $product_price . '$ </span>';
-                                                        echo '<span class="current">' . $discounted_price . '$</span>';
-                                                    } else {
-                                                        echo '<span class="current">' . $product_price . '$</span>';
+                                                        echo '<div class="label action"><span>-' . $product_action . '%</span></div>';
                                                     }
                                                     ?>
                                                 </div>
+                                                <div class="dot-info">
+                                                    <h2 class="dot-title"><a href=""><?php echo $product_name; ?></a></h2>
+                                                    <div class="product-price">
+                                                        <?php
+                                                        if ($product_action) {
+                                                            echo '<span class="before">' . $product_price . '$ </span>';
+                                                            echo '<span class="current">' . $discounted_price . '$</span>';
+                                                        } else {
+                                                            echo '<span class="current">' . $product_price . '$</span>';
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <?php
+                                            <?php
+                                        }
+                                    } else {
+                                        echo "Not found.";
                                     }
-                                } else {
-                                    echo "Not found.";
-                                }
-                                ?>
+                                    ?>
+                                </div>
                             </div>
                         </div>
-                        <div class="button"><a href="" class="primary-btn">Load more</a></div>
+<!--                        <div class="button"><a href="" class="primary-btn">Load more</a></div>-->
                     </div>
                 </div>
             </div>
@@ -291,6 +265,23 @@ if (isset($_GET['product_id'])) {
             swiper: thumbImage,
         },
 
+    });
+
+    $(document).ready(function () {
+        $('#searchForm').on('submit', function (event) {
+            event.preventDefault(); // Az űrlap alapértelmezett beküldésének megakadályozása
+
+            var searchTerm = $('#searchInput').val(); // Keresési kifejezés lekérése
+
+            $.ajax({
+                url: 'search_products.php', // Az AJAX kérést feldolgozó PHP fájl elérési útvonala
+                method: 'POST',
+                data: { searchTerm: searchTerm }, // Elküldendő adatok
+                success: function (response) {
+                    $('#searchResults .wrapper').html(response); // Keresési eredmények beillesztése a megfelelő helyre
+                }
+            });
+        });
     });
 </script>
 <script src="js/script.js"></script>

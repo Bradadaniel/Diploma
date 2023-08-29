@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div class="content-wthree">
                     <h2>Register now</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+                    <p>Don't have an account yet? Create one and join.</p>
                     <?php
                     if (isset($_POST['submit'])) {
                         echo $msg;

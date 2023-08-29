@@ -74,10 +74,9 @@ if (isset($_POST['submit_qty'])) {
     <ul class="side-menu">
         <li><a href="admin.php"><i class="bx bxs-dashboard"></i>Dashboard</a></li>
         <li><a href="admin-upload.php"><i class="bx bx-store-alt"></i>Shop</a></li>
-        <li><a href="admin_orders.php"><i class='bx bxs-shopping-bag'></i>Orders</a></li>
         <li><a href="admin_order_archive.php"><i class="bx bx-message-square-dots"></i>Archive</a></li>
         <li><a href="admin-users.php"><i class="bx bx-group"></i>Users</a></li>
-        <li><a href="#"><i class="bx bx-cog"></i>Settings</a></li>
+<!--        <li><a href="#"><i class="bx bx-cog"></i>Settings</a></li>-->
     </ul>
     <ul class="side-menu">
         <li>
@@ -106,33 +105,37 @@ if (isset($_POST['submit_qty'])) {
             <span class="count">12</span>
         </a>
     </nav>
-</div>
-<!--    End of Navbar -->
-
-<main>
-    <div class="container mt-5">
-        <h1>Orders</h1>
-        <div class="orders-table">
-            <div class="table-container">
-                <table id="orderTable" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>User ID</th>
-                        <th>Product Data</th>
-                        <th>Phone</th>
-                        <th>Name</th>
-                        <th>Total Price</th>
-                        <th>Payment Method</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                </table>
+    <!--    End of Navbar -->
+    <main>
+        <div class="white-bg" style="background: white;border-radius: 2rem;padding: 1rem 0">
+            <div class="container mt-5">
+                <h1>Orders</h1>
+                <div class="orders-table">
+                    <div class="table-container">
+                        <table id="orderTable" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>User ID</th>
+                                <th>Product Data</th>
+                                <th>Phone</th>
+                                <th>Name</th>
+                                <th>Total Price</th>
+                                <th>Payment Method</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
+</div>
+
+
+
 
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>

@@ -49,9 +49,9 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
                         <div class="title-info">
                             <div class="container wide">
                                 <div class="wrap">
-                                    <span class="price">399RSD</span>
+                                    <span class="price">45$</span>
                                     <h3 class="title">Find your best deal</h3>
-                                    <div class="button"><a href="" class="primary-btn">Shop Now</a></div>
+                                    <div class="button"><a href="page-category.php" class="primary-btn">Shop Now</a></div>
                                 </div>
                             </div>
                         </div>
@@ -65,9 +65,9 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
                         <div class="title-info">
                             <div class="container wide">
                                 <div class="wrap">
-                                    <span class="price">599RSD</span>
+                                    <span class="price">30$</span>
                                     <h3 class="title">The best shop with best price</h3>
-                                    <div class="button"><a href="" class="primary-btn">Shop Now</a></div>
+                                    <div class="button"><a href="page-category.php" class="primary-btn">Shop Now</a></div>
                                 </div>
                             </div>
                         </div>
@@ -82,9 +82,9 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
                         <div class="title-info">
                             <div class="container wide">
                                 <div class="wrap">
-                                    <span class="price">599RSD</span>
+                                    <span class="price">15$</span>
                                     <h3 class="title">Woman's Fashion</h3>
-                                    <div class="button"><a href="" class="primary-btn">Shop Now</a></div>
+                                    <div class="button"><a href="page-category.php" class="primary-btn">Shop Now</a></div>
                                 </div>
                             </div>
                         </div>
@@ -98,7 +98,7 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
     </div>
 
 
-    <div class="guide">
+    <div class="guide" id="Guide">
         <div class="container">
             <div class="wrap">
                 <div class="heading">
@@ -106,7 +106,7 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
                 </div>
                 <div class="dotgrid scrollto">
                     <div class="wrapper">
-                        <div class="item">
+                        <div class="item" id="shirt">
                             <div class="dot-image">
                                 <div class="thumbnail hover">
                                     <img src="prod-img/1.jpg" alt="">
@@ -118,7 +118,7 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
                             </div>
                         </div>
 
-                        <div class="item">
+                        <div class="item" id="jeans">
                             <div class="dot-image">
                                 <div class="thumbnail hover">
                                     <img src="prod-img/Jeans.jpg" alt="">
@@ -130,7 +130,7 @@ if (isset($_GET['order_success']) && $_GET['order_success'] == 1) {
                             </div>
                         </div>
 
-                        <div class="item">
+                        <div class="item" id="jackets">
                             <div class="dot-image">
                                 <div class="thumbnail hover">
                                     <img src="prod-img/3.jpg" alt="">
