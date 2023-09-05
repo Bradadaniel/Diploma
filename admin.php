@@ -22,6 +22,9 @@ else{
 $totalVisitorsStmt = $pdo->query('SELECT SUM(visit_count) AS total_visitors FROM visitors');
 $totalVisitors = $totalVisitorsStmt->fetch(PDO::FETCH_ASSOC)['total_visitors'];
 
+$totalSearchStmt = $pdo->query('SELECT count FROM search');
+$totalSearch = $totalSearchStmt->fetch(PDO::FETCH_ASSOC)['count'];
+
 $query = "SELECT total_price FROM orders WHERE status = 'accepted'";
 $stmt = $pdo->query($query);
 $totalPrices = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -67,6 +70,7 @@ $numAcceptedOrders = $result['num_accepted_orders'];
     <ul class="side-menu">
         <li><a href="admin.php"><i class="bx bxs-dashboard"></i>Dashboard</a></li>
         <li><a href="admin-upload.php"><i class="bx bx-store-alt"></i>Shop</a></li>
+        <li><a href="admin-products.php"><i class="bx bx-store-alt"></i>Products</a></li>
         <li><a href="admin_order_archive.php"><i class="bx bx-message-square-dots"></i>Archive</a></li>
         <li><a href="admin-users.php"><i class="bx bx-group"></i>Users</a></li>
 <!--        <li><a href="#"><i class="bx bx-cog"></i>Settings</a></li>-->
@@ -133,7 +137,7 @@ $numAcceptedOrders = $result['num_accepted_orders'];
             <li><i class='bx bx-line-chart'></i>
                 <span class="info">
                         <h3>
-                            24
+                            <?php echo $totalSearch; ?>
                         </h3>
                         <p>Searches</p>
                     </span>

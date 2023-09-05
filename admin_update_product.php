@@ -17,7 +17,6 @@
     $pdo = connectDatabase($dsn, $pdoOptions);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Az update_product_handler.php-t ide másold be
 
     } else {
         $product_id = $_GET['product_id'];

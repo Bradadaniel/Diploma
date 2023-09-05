@@ -60,80 +60,88 @@ if (isset($_GET['product_id'])) {
                             </a>
                             <div class="sidebar-content">
                                 <div class="sidebar-title">Filter</div>
-                                <div class="widget">
-                                    <div class="summary">
-                                        <input type="checkbox" name="cats" id="aaa" checked>
-                                        <label for="aaa">
-                                            <span>Size</span>
-                                            <i class="ri-arrow-down-s-line"></i>
-                                        </label>
-                                        <div class="accord product-size">
-                                            <div class="wrap">
-                                                <button>S</button>
-                                                <button>M</button>
-                                                <button>L</button>
-                                                <button>XL</button>
-                                                <button>XXL</button>
+                                <form id="searchForm" method="post">
+                                    <div class="widget">
+                                        <div class="summary">
+                                            <input type="checkbox" name="cats" id="aaa" checked>
+                                            <label for="aaa">
+                                                <span>Size</span>
+                                                <i class="ri-arrow-down-s-line"></i>
+                                            </label>
+                                            <div class="accord product-size">
+                                                <div class="wrap">
+                                                    <input class="checkbox" type="checkbox" id="size_s" name="selected_size" value="S" style="margin-right: 10px;vertical-align: middle;">
+                                                    <label class="checkbox-label" for="size_s" style="display: inline-block;width: 40px;text-align: center;cursor: pointer;">S</label>
+                                                    <input class="checkbox" type="checkbox" id="size_m" name="selected_size" value="M" style="margin-right: 10px;vertical-align: middle;">
+                                                    <label class="checkbox-label" for="size_m" style="display: inline-block;width: 40px;text-align: center;cursor: pointer;">M</label>
+                                                    <input class="checkbox" type="checkbox" id="size_l" name="selected_size" value="L" style="margin-right: 10px;vertical-align: middle;">
+                                                    <label class="checkbox-label" for="size_l" style="display: inline-block;width: 40px;text-align: center;cursor: pointer;">L</label>
+                                                    <input class="checkbox" type="checkbox" id="size_xl" name="selected_size" value="XL" style="margin-right: 10px;vertical-align: middle;">
+                                                    <label class="checkbox-label" for="size_xl" style="display: inline-block;width: 40px;text-align: center;cursor: pointer;">XL</label>
+                                                    <input class="checkbox" type="checkbox" id="size_xxl" name="selected_size" value="XXL" style="margin-right: 10px;vertical-align: middle;">
+                                                    <label class="checkbox-label" for="size_xxl" style="display: inline-block;width: 40px;text-align: center;cursor: pointer;">XXL</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="widget">
-                                    <div class="summary">
-                                        <input type="checkbox" name="cats" id="aac" checked>
-                                        <label for="aac">
-                                            <span>Category</span>
-                                            <i class="ri-arrow-down-s-line"></i>
-                                        </label>
-                                        <div class="accord list-block scrollto">
-                                            <ul class="wrapper initial">
-                                                <a href=""><li class="">Hoodie</li></a>
-                                                <li class="">Shirt</li>
-                                                <li class="">Jeans</li>
-                                                <li class="">T-Shirt</li>
-                                                <li class="">Jackets</li>
-                                                <li class="">Skirt</li>
-                                                <li class="">Hat</li>
-                                                <li class="">Bag</li>
-                                                <li class="">Sweather</li>
-                                            </ul>
+                                    <div class="widget">
+                                        <div class="summary">
+                                            <input type="checkbox" name="cats" id="aac" checked>
+                                            <label for="aac">
+                                                <span>Category</span>
+                                                <i class="ri-arrow-down-s-line"></i>
+                                            </label>
+                                            <div class="accord list-block scrollto">
+                                                <?php
+                                                $sql = "SELECT category_name FROM category";
+                                                $stmt = $pdo->prepare($sql);
+                                                $stmt->execute();
+                                                $categories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+                                                foreach ($categories as $category) {
+                                                    echo '<input type="checkbox" name="category" value="' . $category . '" id="category-' . strtolower($category) . '" style="display: inline-block; vertical-align: middle;">';
+                                                    echo '<label for="category-' . strtolower($category) . '" style="display: inline-block; vertical-align: middle;">' . $category . '</label><br>';
+                                                }
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="widget">
-                                    <div class="summary">
-                                        <input type="checkbox" name="cats" id="aad" checked>
-                                        <label for="aad">
-                                            <span>Brands</span>
-                                            <i class="ri-arrow-down-s-line"></i>
-                                        </label>
-                                        <div class="accord list-block scrollto">
-                                            <ul class="wrapper initial">
-                                                <li class="">Adidas</li>
-                                                <li class="">Chanel</li>
-                                                <li class="">Dolce & Gabanna</li>
-                                                <li class="">Gucci</li>
-                                                <li class="">Louis Vuttion</li>
-                                                <li class="">Nike</li>
-                                                <li class="">Prada</li>
-                                                <li class="">Puma</li>
-                                                <li class="">Zara</li>
-                                            </ul>
+                                    <div class="widget">
+                                        <div class="summary">
+                                            <input type="checkbox" name="cats" id="aad" checked>
+                                            <label for="aad">
+                                                <span>Brands</span>
+                                                <i class="ri-arrow-down-s-line"></i>
+                                            </label>
+                                            <div class="accord list-block scrollto">
+                                                <?php
+                                                $sql = "SELECT DISTINCT product_brand FROM products";
+                                                $stmt = $pdo->prepare($sql);
+                                                $stmt->execute();
+                                                $brands = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+                                                foreach ($brands as $brand) {
+                                                    echo '<input type="checkbox" name="brand" value="' . $brand . '" id="brand-' . strtolower($brand) . '" style="display: inline-block; vertical-align: middle;">';
+                                                    echo '<label for="brand-' . strtolower($brand) . '" style="display: inline-block; vertical-align: middle;">' . $brand . '</label><br>';
+                                                }
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="widget">
-                                    <div class="summary">
-                                        <label><span>Price</span></label>
-                                        <div class="range-track">
-                                            <input type="range" id="priceRange" value="1000" min="0" max="25000" step="1">
-                                        </div>
-                                        <div class="price-range grey-color">
-                                            <span id="minPrice">$1</span>
-                                            <span id="maxPrice">$3000</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <button type="submit" class="primary-btn" style="width: 100px">Search</button>
+                                </form>
+<!--                                <div class="widget">-->
+<!--                                    <div class="summary">-->
+<!--                                        <label><span>Price</span></label>-->
+<!--                                        <div class="range-track">-->
+<!--                                            <input type="range" id="priceRange" value="1000" min="0" max="25000" step="1">-->
+<!--                                        </div>-->
+<!--                                        <div class="price-range grey-color">-->
+<!--                                            <span id="minPrice">$1</span>-->
+<!--                                            <span id="maxPrice">$3000</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 <!--                                <button type="submit" id="submit_sorters" class="primary-btn" style="padding: 0.5rem;font-size: 1.5rem">Submit Sorter</button>-->
                             </div>
                         </div>
@@ -141,9 +149,9 @@ if (isset($_GET['product_id'])) {
                     <div class="category-content">
                         <div class="sorter">
                             <div class="left">
-                                <form id="searchForm" method="post" style="display: flex">
+                                <form id="searchForms" method="post" style="display: flex">
                                     <input type="text" id="searchInput" name="searchTerm" placeholder="Search for products">
-                                    <button type="submit" style="padding: 0.5rem;font-size: 1.5rem"><i class="ri-search-line"></i></button>
+                                    <button type="submit" style="padding: 0.5rem;font-size: 1.5rem" name="search-submit"><i class="ri-search-line"></i></button>
                                 </form>
                             </div>
                             <div class="right">
@@ -154,12 +162,13 @@ if (isset($_GET['product_id'])) {
                                             <i class="ri-arrow-down-s-line"></i>
                                         </div>
                                         <ul>
-                                            <li class="active"><a href="#0">Default sorting</a></li>
-                                            <li><a href="#0">Latest</a></li>
-                                            <li><a href="#0">Price low to hight</a></li>
-                                            <li><a href="#0">Price hight to low</a></li>
+                                            <li class="active" data-sort="default"><a href="#0">Default sorting</a></li>
+                                            <li data-sort="latest"><a href="#0">Latest</a></li>
+                                            <li data-sort="low-to-high"><a href="#0">Price low to high</a></li>
+                                            <li data-sort="high-to-low"><a href="#0">Price high to low</a></li>
                                         </ul>
                                     </div>
+
                                 </div>
                                 <div class="list-inline">
                                     <ul>
@@ -268,7 +277,7 @@ if (isset($_GET['product_id'])) {
     });
 
     $(document).ready(function () {
-        $('#searchForm').on('submit', function (event) {
+        $('#searchForms').on('submit', function (event) {
             event.preventDefault(); // Az űrlap alapértelmezett beküldésének megakadályozása
 
             var searchTerm = $('#searchInput').val(); // Keresési kifejezés lekérése
@@ -283,7 +292,42 @@ if (isset($_GET['product_id'])) {
             });
         });
     });
+
+    $(document).ready(function () {
+        $('#searchForm').on('submit', function (event) {
+            event.preventDefault();
+
+            var selectedSizes = [];
+            $('input[name="selected_size"]:checked').each(function () {
+                selectedSizes.push($(this).val());
+            });
+
+            var selectedBrands = [];
+            $('input[name="brand"]:checked').each(function () {
+                selectedBrands.push($(this).val());
+            });
+
+            var selectedCategories = [];
+            $('input[name="category"]:checked').each(function () {
+                selectedCategories.push($(this).val());
+            });
+
+            $.ajax({
+                url: 'search_products.php',
+                method: 'POST',
+                data: {
+                    selectedSizes: selectedSizes,
+                    selectedBrands: selectedBrands,
+                    selectedCategories: selectedCategories
+                },
+                success: function (response) {
+                    $('#searchResults .wrapper').html(response);
+                }
+            });
+        });
+    });
 </script>
+
 <script src="js/script.js"></script>
 </body>
 </html>

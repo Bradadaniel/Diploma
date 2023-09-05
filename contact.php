@@ -8,17 +8,64 @@
 
 
 <?php include "header.php";?>
+<?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
+if (isset($_POST['submit'])){
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $text = $_POST['text'];
+
+    echo "<div style='display: none;'>";
+    $mail = new PHPMailer(true);
+
+
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();                                            //Send using SMTP
+        $mail->Host = 'smtp.gmail.com';                     //Set the SMTP server to send through
+        $mail->SMTPAuth = true;                                   //Enable SMTP authentication
+        $mail->Username = "danibrada29@gmail.com";
+        $mail->Password = "iuwnykymzxfrmepw";                            //SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+        $mail->Port = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+        $mail->SMTPSecure = 'tls';
+
+        //Recipients
+        $mail->setFrom('danibrada29@gmail.com');
+        $mail->addAddress($email);
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = 'no reply';
+        $mail->Body = 'Hello my name is ' . $name. '.Here is the email:' . $email. ' and phone number: ' . $phone . '.<p>' . $text . '</p></a></b>';
+
+        $mail->send();
+        echo 'Message has been sent';
+        header('Location: index.php');
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
+?>
 
 <div class="contact_us_6">
     <div class="responsive-container-block container">
-        <form class="form-box">
+        <form class="form-box" method="post">
             <div class="container-block form-wrapper">
                 <div class="mob-text">
                     <p class="text-blk contactus-head">
                         Get in Touch
                     </p>
                     <p class="text-blk contactus-subhead">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Felis diam lectus sapien.
+
                     </p>
                 </div>
                 <div class="responsive-container-block" id="i2cbk">
@@ -26,28 +73,28 @@
                         <p class="text-blk input-title">
                             FIRST NAME
                         </p>
-                        <input class="input" id="" name="FirstName" placeholder="Please enter first name...">
+                        <input class="input" id="" name="name" placeholder="Please enter first name..." required>
                     </div>
                     <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="ip1yp">
                         <p class="text-blk input-title">
                             EMAIL
                         </p>
-                        <input class="input" id="" name="Email" placeholder="Please enter email...">
+                        <input class="input" id="" name="email" placeholder="Please enter email..." required>
                     </div>
                     <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="ih9wi">
                         <p class="text-blk input-title">
                             PHONE NUMBER
                         </p>
-                        <input class="input" id="" name="PhoneNumber" placeholder="Please enter phone number...">
+                        <input class="input" id="" name="phone" placeholder="Please enter phone number..." required>
                     </div>
                     <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i634i-3">
                         <p class="text-blk input-title">
                             WHAT DO YOU HAVE IN MIND ?
                         </p>
-                        <textarea class="textinput" id="" placeholder="Please enter query..."></textarea>
+                        <textarea class="textinput" id="" name="text" placeholder="Please enter query..." required></textarea>
                     </div>
                 </div>
-                <button class="submit-btn" id="w-c-s-bgc_p-1-dm-id-2">
+                <button class="submit-btn" name="submit" id="w-c-s-bgc_p-1-dm-id-2">
                     Submit
                 </button>
             </div>

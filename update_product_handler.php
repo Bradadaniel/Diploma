@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        header("Location: admin-upload.php");
+        header("Location: admin-products.php");
         exit();
     } else {
         echo "An error occurred during the update.";

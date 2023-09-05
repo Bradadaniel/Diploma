@@ -18,23 +18,22 @@
                     <div class="list-block">
                         <h3 class="dot-title">Service</h3>
                         <ul>
-                            <li><a href="#">About Us</a></li>
                             <li><a href="#">Delivery Information</a></li>
-                            <li><a href="#">Terms & Condition</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">3-7 working day</a></li>
+                            <li><a href="contact.php">Contact</a></li>
                         </ul>
                     </div>
                     <div class="list-block">
                         <h3 class="dot-title">Service</h3>
                         <ul>
-                            <li><a href="#">Contact</a></li>
-                            <li><a href="#">Shop Map</a></li>
-                            <li><a href="#">Best Actions</a></li>
-                            <li><a href="#">Great Quality</a></li>
+
+                            <li><a href="contact.php">Shop Map</a></li>
+                            <li><a href="page-category.php">Best Actions</a></li>
+                            <li><a href="#Guide">Great Quality</a></li>
                         </ul>
                     </div>
                     <div class="lit-block">
-                        <h3 class="dot-title">Service</h3>
+                        <h3 class="dot-title">Address</h3>
                         <div class="comp-address grey-color">
                             <p>Bajsa Vodna 30.<br>Central Vojvodina</p>
                             <p>

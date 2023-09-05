@@ -132,7 +132,7 @@ if (isset($_POST['submit'])) {
                         <button name="submit" class="btn" type="submit">Register</button>
                     </form>
                     <div class="social-icons">
-                        <p>Van már fiókod?! <a href="login.php">Login</a>.</p>
+                        <p>Already have an account?! <a href="login.php">Login</a>.</p>
                     </div>
                 </div>
             </div>

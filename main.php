@@ -1,6 +1,6 @@
 <?php
 
-$sql = "SELECT * FROM products ORDER BY product_id DESC LIMIT 16";
+$sql = "SELECT * FROM products ORDER BY product_id DESC LIMIT 12";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

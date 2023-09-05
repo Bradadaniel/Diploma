@@ -97,7 +97,7 @@ if (isset($_POST['submit'])){
         <div class="workinghny-form-grid">
             <div class="main-mockup">
                 <div class="alert-close">
-                    <a href="index.php" style="color: var(--white)"><span class="fa fa-close"></span></a>
+                       <a href="index.php" style="color: var(--white)"><span class="fa fa-close"></span></a>
                 </div>
                 <div class="w3l_form align-self">
                     <div class="left_grid_info">
@@ -111,7 +111,7 @@ if (isset($_POST['submit'])){
                     <form action="" method="post">
                         <input type="email" class="email" name="email" id="email" placeholder="Enter your email address" required>
                         <input type="password" class="password" name="password" id="password" placeholder="Enter your password" style="margin-bottom: 2px;" required>
-                        <p><a href="user_frogot_password.php" style="margin-bottom: 15px; display: block; text-align: right;">Forgot your password?</a></p>
+                        <p><a href="user_forgot_password.php" style="margin-bottom: 15px; display: block; text-align: right;">Forgot your password?</a></p>
                         <button name="submit" name="submit" id="submit" class="btn" type="submit">Log in</button>
                     </form>
                     <div class="social-icons">

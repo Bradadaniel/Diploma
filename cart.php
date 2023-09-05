@@ -109,9 +109,7 @@ echo $msg;?>
 align-items: center; padding: 10px 0">
 <div class="continueshopping button">
      <a href="page-category.php" class="primary-btn" style="text-decoration: none;">Continue shopping</a></div>
-<div class="buynow button">
-    <button type="submit" name="buy_now" class="secondary-btn" id="buyNowBtn" disabled>Buy now</button>
-</div>
+
 </div>
 
 <div class="container">

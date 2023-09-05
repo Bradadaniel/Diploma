@@ -54,29 +54,7 @@ trigger.forEach((btn) => {
     });
 });
 
-//mobile-menu submenu
 
-// const submenu = document.querySelectorAll('.child-trigger');
-// submenu.forEach((menu) => menu.addEventListener('click', function (e){
-//     e.preventDefault();
-//     submenu.forEach((item) => item != this ? item.closest('.has-child').classList.remove('active') : null);
-//     if (this.closest('.has-child').classList != 'active'){
-//         this.closest('.has-child').classList.toggle('active');
-//     }
-// }))
-
-// const submenu = document.querySelectorAll('.child-trigger');
-// submenu.forEach((menu) => menu.addEventListener('click', function (e) {
-//     e.preventDefault();
-//     submenu.forEach((item) => {
-//         if (item !== this) {
-//             item.closest('.has-child').classList.remove('active');
-//         }
-//     });
-//     if (!this.closest('.has-child').classList.contains('active')) {
-//         this.closest('.has-child').classList.toggle('active');
-//     }
-// }));
 
 
 

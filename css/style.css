@@ -960,6 +960,7 @@ main > div .heading{
     margin: 10px 0 0 10px;
     flex-grow: 1;
 }
+
 /*banner*/
 .banner {
     background-color: var(--light-color);
